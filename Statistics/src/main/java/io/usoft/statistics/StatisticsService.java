@@ -6,6 +6,6 @@ package io.usoft.statistics;
  */
 public interface StatisticsService {
 
-	void storeEvent(Event event);
+	void store(Event event);
 
 }

@@ -27,9 +27,9 @@ public class DailyStoreStrategy extends AbstractStoreStrategy {
 	}
 
 	@Override
-	protected String getChildKey(Event event) {
+	protected String getChildKey(String key, Event event) {
 		DateTime time = new DateTime(event.getTimestamp());
-		return HOURS_PREFIX + time.getHourOfDay() + "." + event.getKey();
+		return HOURS_PREFIX + time.getHourOfDay() + "." + key;
 	}
 
 	@Override

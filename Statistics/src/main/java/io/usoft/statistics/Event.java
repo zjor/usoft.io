@@ -3,7 +3,8 @@ package io.usoft.statistics;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: Sergey Royz
@@ -12,19 +13,40 @@ import java.util.Date;
 @Data
 public class Event {
 
-	private String key;
+	public static final BigDecimal DEFAULT_VALUE = BigDecimal.ONE;
 
-	private BigDecimal delta = BigDecimal.ONE;
+	private Map<String, BigDecimal> values = new HashMap<String, BigDecimal>();
 
 	private long timestamp;
 
-	public Event(String key) {
-		this(key, BigDecimal.ONE);
+	public Event(long timestamp) {
+		this.timestamp = timestamp;
 	}
 
-	public Event(String key, BigDecimal delta) {
-		this.key = key;
-		this.delta = delta;
-		timestamp = new Date().getTime();
+	public Event(String key, BigDecimal value, long timestamp) {
+		this.timestamp = timestamp;
+		values.put(key, value);
 	}
+
+	public Event(String key, BigDecimal value) {
+		this(key, value, System.currentTimeMillis());
+	}
+
+	public Event(String key, long timestamp) {
+		this(key, DEFAULT_VALUE, timestamp);
+	}
+
+	public Event(String key) {
+		this(key, DEFAULT_VALUE, System.currentTimeMillis());
+	}
+
+	public void addValue(String key, BigDecimal value) {
+		values.put(key, value);
+	}
+
+	public void addValue(String key) {
+		values.put(key, DEFAULT_VALUE);
+	}
+
+
 }

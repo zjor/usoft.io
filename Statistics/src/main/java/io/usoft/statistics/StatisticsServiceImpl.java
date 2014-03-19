@@ -30,7 +30,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 	}
 
 	@Override
-	public void storeEvent(Event event) {
+	public void store(Event event) {
 		DBCollection collection = getCollection();	//might depend on key in future
 		new DailyStoreStrategy(collection).store(event);
 		new YearlyStoreStrategy(collection).store(event);

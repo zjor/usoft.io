@@ -5,6 +5,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import io.usoft.statistics.Event;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 /**
  * @author: Sergey Royz
  * Date: 15.03.2014
@@ -23,8 +26,10 @@ public abstract class AbstractStoreStrategy {
 		DBObject id = new BasicDBObject("_id", getDocumentId(event));
 
 		DBObject update = new BasicDBObject();
-		update.put(getRootKey(event), event.getDelta().floatValue());
-		update.put(getChildKey(event), event.getDelta().floatValue());
+		for (Map.Entry<String, BigDecimal> entry: event.getValues().entrySet()) {
+			update.put(getRootKey(entry.getKey()), entry.getValue().floatValue());
+			update.put(getChildKey(entry.getKey(), event), entry.getValue().floatValue());
+		}
 
 		DBObject command = new BasicDBObject();
 		command.put("$inc", update);
@@ -33,13 +38,13 @@ public abstract class AbstractStoreStrategy {
 		collection.update(id, command, true, false);
 	}
 
-	private String getRootKey(Event event) {
-		return KEYS_PREFIX + event.getKey();
+	private String getRootKey(String key) {
+		return KEYS_PREFIX + key;
 	}
 
 	protected abstract String getDocumentId(Event event);
 
-	protected abstract String getChildKey(Event event);
+	protected abstract String getChildKey(String key, Event event);
 
 	protected abstract String getStoreType();
 

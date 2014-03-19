@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author: Sergey Royz
@@ -28,9 +29,10 @@ public class YearlyStoreStrategy extends AbstractStoreStrategy {
 	}
 
 	@Override
-	protected String getChildKey(Event event) {
+	protected String getChildKey(String key, Event event) {
 		DateTime time = new DateTime(event.getTimestamp());
-		return MONTHS_PREFIX + time.monthOfYear().getAsText() + "." + event.getKey();
+		String month = time.monthOfYear().getAsText(Locale.ENGLISH).toLowerCase();
+		return MONTHS_PREFIX + month + "." + key;
 	}
 
 	@Override

@@ -17,9 +17,9 @@ public class AppTest {
 		Injector injector = Guice.createInjector(new StatisticsModule());
 		StatisticsService service = injector.getInstance(StatisticsService.class);
 
-		service.storeEvent(new Event("balance", BigDecimal.valueOf(100000)));
-		service.storeEvent(new Event("balance", BigDecimal.valueOf(150000)));
-		service.storeEvent(new Event("balance", BigDecimal.valueOf(-3400)));
+		service.store(new Event("balance", BigDecimal.valueOf(100000)));
+		service.store(new Event("balance", BigDecimal.valueOf(150000)));
+		service.store(new Event("balance", BigDecimal.valueOf(-3400)));
 
 	}
 }
