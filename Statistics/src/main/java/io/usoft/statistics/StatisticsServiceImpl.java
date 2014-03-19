@@ -1,12 +1,13 @@
 package io.usoft.statistics;
 
-import com.google.inject.Inject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import io.usoft.statistics.storage.DailyStoreStrategy;
 import io.usoft.statistics.storage.YearlyStoreStrategy;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.inject.Inject;
 
 /**
  * @author: Sergey Royz
