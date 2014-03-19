@@ -17,9 +17,6 @@ import javax.inject.Inject;
 @Slf4j
 public class StatisticsServiceImpl implements StatisticsService {
 
-	private static final String COLLECTION_PREFIX = "io.usoft.";
-
-
 	private MongoClient mongoClient;
 
 	private Configuration configuration;
@@ -39,7 +36,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
 	private DBCollection getCollection() {
 		DB db = mongoClient.getDB(configuration.getDatabaseName());
-		return db.getCollection(COLLECTION_PREFIX + configuration.getCollectionName());
+		return db.getCollection(configuration.getCollectionName());
 	}
 
 }
