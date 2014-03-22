@@ -9,6 +9,7 @@ import com.google.inject.servlet.GuiceServletContextListener;
  * Date: 22.03.2014
  */
 public class ShareDoxContextListener extends GuiceServletContextListener {
+
 	@Override
 	protected Injector getInjector() {
 		return Guice.createInjector(new ShareDoxModule(), new GuiceServletModule());
