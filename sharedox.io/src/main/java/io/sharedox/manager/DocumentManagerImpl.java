@@ -1,5 +1,6 @@
 package io.sharedox.manager;
 
+import com.google.inject.persist.Transactional;
 import io.sharedox.model.Document;
 import me.zjor.auth.model.AuthUser;
 import me.zjor.manager.AbstractManager;
@@ -14,6 +15,7 @@ import java.util.List;
 public class DocumentManagerImpl extends AbstractManager implements DocumentManager {
 
 	@Override
+	@Transactional
 	public Document create(AuthUser user, String title, String description, String imageURL, String resourceLocation, String filename) {
 		return Document.create(jpa(), user, title, description, imageURL, resourceLocation, filename);
 	}

@@ -10,12 +10,11 @@ public class Routes {
 
 	public static final String ROOT = "/";
 	public static final String LANDING = "/landing";
-	public static final String DOCUMENTS = "/documents";
-	public static final String DOCUMENTS_CREATE = "/documents/create";
 
 	public static Pattern[] PUBLIC_ROUTE_PATTERNS = new Pattern[] {
 			Pattern.compile(ROOT + "/?"),
-			Pattern.compile(LANDING + "/?")
+			Pattern.compile(LANDING + "/?"),
+			Pattern.compile("/public/?.*")
 	};
 
 }
