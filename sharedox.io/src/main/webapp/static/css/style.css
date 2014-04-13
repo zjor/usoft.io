@@ -1,0 +1,128 @@
+body {
+	background-color: #f5f5f5;
+	font-family: robotoregular;
+}
+
+h1 {
+	font-family: robotobold;
+	font-size: 1.2em;
+}
+
+a {
+	font-family: robotolight;
+}
+
+.clearfix {
+	float: none;
+	overflow: auto;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.header {
+	padding: 5px 10px;
+	background-color: #fff;
+	border-bottom: solid 2px #adadad;
+}
+
+.header .title {
+	padding: 10px 10px;
+}
+
+.header h2 {
+	font-family: robotothin;
+}
+
+.header .avatar {
+	margin-right: 10px;
+}
+
+.container {
+	margin: 0 auto;
+	padding-top: 25px;
+	width: 500px;
+}
+
+.dropzone {
+	line-height: 150px;
+	margin: 0 auto;
+	border: dashed 3px #808080;
+	border-radius: 15px;
+	text-align: center;
+	font-size: 2em;
+	color: #808080;
+}
+
+#documents-title {
+	padding-top: 25px;
+	color: #808080;
+
+}
+
+ul.documents {
+	padding-top: 10px;
+}
+
+.item-container {
+	background: #fff;
+	border: solid 1px grey;
+	box-shadow: 5px 5px 5px #888888;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+.documents li:hover {
+	background: lightcyan;
+	box-shadow: 5px 5px 5px #888888;
+}
+
+.documents li .description-container {
+	padding: 5px 10px;
+	max-width: 250px;
+}
+
+.documents li p {
+	font-family: robotolight;
+}
+
+input.title {
+	line-height: 2em;
+	width: 402px;
+	padding-left: 0.5em;
+	margin-bottom: 10px;
+}
+
+textarea.description {
+	width: 400px;
+	padding: 0.5em;
+}
+
+.btn {
+	display: inline-block;
+	text-align: center;
+	background: grey;
+	padding: 10px;
+	min-width: 60px;
+	text-decoration: none;
+	font-family: robotoregular;
+}
+
+.btn.save {
+	background-color: darkgreen;
+	color: #fff;
+}
+
+.btn.remove {
+	color: #fff;
+}
+
+.url {
+	font-size: 0.8em;
+	max-width: 350px;
+}

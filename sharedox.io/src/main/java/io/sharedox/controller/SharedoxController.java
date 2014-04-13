@@ -1,10 +1,12 @@
 package io.sharedox.controller;
 
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.sun.jersey.api.view.Viewable;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import io.sharedox.Routes;
+import io.sharedox.dto.DocumentDTO;
 import io.sharedox.manager.DocumentManager;
 import io.sharedox.model.Document;
 import io.sharedox.util.UserAgentUtils;
@@ -78,6 +80,58 @@ public class SharedoxController {
 
 		return Response.ok(new Viewable("/documents/list", model)).build();
 	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/api/json/documents")
+	public Response getDocumentsAsJSON() {
+		List<Document> documents = documentManager.findAll(authUserService.get());
+		return Response.ok().entity(
+				new GsonBuilder()
+						.create()
+						.toJson(DocumentDTO.fromModelCollection(documents, HttpUtils.getBaseURL(httpServletRequest)))
+		).build();
+	}
+
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/api/upload")
+	public Response upload(@FormDataParam("file") java.io.InputStream fileInputStream,
+						   @FormDataParam("file") FormDataContentDisposition contentDispositionHeader) {
+		String filename = contentDispositionHeader.getFileName();
+		String resourceLocation = UUID.randomUUID().toString() + "_" + filename;
+
+		try {
+			FileOutputStream fout = new FileOutputStream("/tmp/" + resourceLocation);
+			IOUtils.copy(fileInputStream, fout);
+			fout.flush();
+			fout.close();
+			fileInputStream.close();
+			log.info("File was saved successfully. Filename: {}", resourceLocation);
+		} catch (IOException e) {
+			log.error("Failed to save file", e);
+			return Response.serverError().entity(e.getMessage()).build();
+		}
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("filename", filename);
+		result.put("resource_location", resourceLocation);
+		return Response.ok().entity(result).build();
+	}
+
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	@Path("/api/documents/create")
+	public Response create(
+			@FormParam("title") String title,
+			@FormParam("description") String description,
+			@FormParam("filename") String filename,
+			@FormParam("resource_location") String resourceLocation
+	) {
+		documentManager.create(authUserService.get(), title, description, null, resourceLocation, filename);
+		return Response.ok().build();
+	}
+
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)

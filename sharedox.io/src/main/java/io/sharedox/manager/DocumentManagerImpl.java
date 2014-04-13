@@ -23,7 +23,7 @@ public class DocumentManagerImpl extends AbstractManager implements DocumentMana
 	@Override
 	public List<Document> findAll(AuthUser user) {
 		TypedQuery<Document> query = jpa()
-				.createQuery("SELECT d FROM Document d WHERE d.user.id = :uid", Document.class)
+				.createQuery("SELECT d FROM Document d WHERE d.user.id = :uid ORDER BY d.creationTime DESC", Document.class)
 				.setParameter("uid", user.getId());
 		return query.getResultList();
 	}
