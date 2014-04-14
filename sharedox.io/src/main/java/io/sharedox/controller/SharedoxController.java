@@ -132,6 +132,13 @@ public class SharedoxController {
 		return Response.ok().build();
 	}
 
+	@DELETE
+	@Path("/api/documents/delete/{id}")
+	public Response remove(@PathParam("id") String id) {
+		documentManager.remove(id);
+		return Response.ok().build();
+	}
+
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)

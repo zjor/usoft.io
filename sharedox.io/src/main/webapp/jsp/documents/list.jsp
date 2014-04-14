@@ -87,6 +87,7 @@
 			<h1><@= title @></h1>
 			<p><@= description @></p>
 		</div>
+		<div class="delete-button">Delete</div>
 	</div>
 	<div class="url"><a href="<@= url @>"><@= url @></a></div>
 	<div class="clearfix">
@@ -105,6 +106,7 @@
 
 	$(function() {
 		var Document = Backbone.Model.extend({
+			idAttribute: 'id',
 			defaults: {
 				title: '',
 				description: '',
@@ -123,9 +125,26 @@
 			tagName: 'li',
 			className: 'item-container',
 			template: template('document-item'),
+			events: {
+				'click .delete-button': 'delete'
+			},
 			render: function() {
 				this.$el.html(this.template(this.model.toJSON()));
 				return this;
+			},
+			delete: function() {
+				var id = this.model.get('id');
+				var view = this.$el;
+				var model = this.model;
+				$.ajax({
+					url: '${baseURL}/api/documents/delete/' + id,
+					type: 'DELETE',
+					success: function() {
+						view.slideUp(300, function() {
+							docs.remove(model);
+						});
+					}
+				});
 			}
 		});
 

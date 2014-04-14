@@ -32,4 +32,15 @@ public class DocumentManagerImpl extends AbstractManager implements DocumentMana
 	public Document findById(String id) {
 		return jpa().find(Document.class, id);
 	}
+
+	@Override
+	@Transactional
+	public void remove(String id) {
+		Document entity = findById(id);
+		if (entity != null) {
+			jpa().remove(entity);
+		}
+	}
+
+
 }

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="fonts/fonts.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/backbone-min.js"></script>
+
+</head>
+<body>
+<div class="clearfix header">
+	<div class="left">
+		<img src="images/sharedox_logo.png">
+	</div>
+	<div class="left title">
+		<h1>ShareDox</h1>
+
+		<h2>simply.share.</h2>
+	</div>
+
+	<div class="right title">
+		<div class="clearfix">
+			<div class="left">
+				<img class="avatar"
+					 src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c38.8.103.103/s50x50/395627_10150527846469581_2073276919_a.jpg"/>
+			</div>
+			<div class="right">
+				<div>Sergey Royz</div>
+				<div class="right"><a href="#">Logout</a></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+
+	<div class="dropzone">
+		Drop a file here
+	</div>
+
+	<div class="item-container">
+		<h2>Filename: data.txt</h2>
+
+		<div>
+			<input class="title" type="text" placeholder="Title"/>
+		</div>
+		<div>
+			<textarea class="description" placeholder="Description"></textarea>
+		</div>
+		<div class="clearfix">
+			<a href="#" class="btn save">Save</a>
+			<a href="#" class="btn remove">Remove</a>
+		</div>
+	</div>
+
+	<h1 id="documents-title">Recently uploaded documents</h1>
+	<div id="documents-list"/>
+</div>
+
+<script type="text/x-template" id="document-item">
+	<div class="clearfix">
+		<div class="left"><img src="images/document.png"></div>
+		<div class="left description-container">
+			<h1><@= title @></h1>
+			<p><@= description @></p>
+		</div>
+		<div class="delete-button">Delete</div>
+	</div>
+	<div><a href="<@= url @>"><@= url @></a></div>
+	<div class="clearfix">
+		<div class="left"><@= creation_date @></div>
+		<div class="right">Downloads: <@= downloads @></div>
+	</div>
+</script>
+
+
+<script>
+	_.templateSettings = {
+		interpolate: /\<\@\=(.+?)\@\>/gim,
+		evaluate: /\<\@([\s\S]+?)\@\>/gim,
+		escape: /\<\@\-(.+?)\@\>/gim
+	};
+
+	$(function() {
+		var Document = Backbone.Model.extend({
+			idAttribute: 'id',
+			defaults: {
+				title: '',
+				description: '',
+				url: '',
+				creation_date: '',
+				downloads: 0
+			}
+		});
+
+		var Documents = Backbone.Collection.extend({
+			model: Document,
+			url: '/documents.json'
+		});
+
+		var DocumentView = Backbone.View.extend({
+			tagName: 'li',
+			className: 'item-container',
+			template: template('document-item'),
+			events: {
+				'click .delete-button': 'delete'
+			},
+			render: function() {
+				this.$el.html(this.template(this.model.toJSON()));
+				return this;
+			},
+			delete: function() {
+				console.log('trying to remove this' + this.model.get('id'));
+				var model = this.model;
+				this.$el.slideUp(300, function() {
+					model.destroy();
+				});
+			}
+		});
+
+		var ListView = Backbone.View.extend({
+			tagName: 'ul',
+			className: 'documents',
+			render: function() {
+				var el = this.$el;
+				el.empty();
+				this.model.each(function(item) {
+					var view = new DocumentView({model: item});
+					el.append(view.render().el);
+				});
+				return this;
+			}
+		});
+
+		var docs = new Documents([
+			{
+				id: '123',
+				title: 'title 1',
+				description: 'Descr 1',
+				url: 'www.google.com',
+				creation_date: '14.04.2014',
+				downloads: 14
+			},
+			{
+				id: '345',
+				title: 'title 2',
+				description: 'Descr 2',
+				url: 'www.google.com',
+				creation_date: '15.04.2014',
+				downloads: 32
+			}
+		]);
+
+		var listView = new ListView({model: docs});
+		docs.fetch();
+		$('#documents-list').html(listView.render().el);
+	});
+
+	function template(templateId) {
+		return _.template($('#' + templateId).html());
+	};
+
+</script>
+
+</body>
+
+</html>

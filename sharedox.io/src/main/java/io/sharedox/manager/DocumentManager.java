@@ -17,4 +17,6 @@ public interface DocumentManager {
 
 	Document findById(String id);
 
+	void remove(String id);
+
 }

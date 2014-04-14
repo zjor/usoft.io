@@ -17,6 +17,9 @@ import java.util.List;
 @Data
 public class DocumentDTO implements Serializable {
 
+	@SerializedName("id")
+	private String id;
+
 	@SerializedName("title")
 	private String title;
 
@@ -34,6 +37,7 @@ public class DocumentDTO implements Serializable {
 
 	public static DocumentDTO fromModel(Document doc, String baseURL) {
 		DocumentDTO dto = new DocumentDTO();
+		dto.setId(doc.getId());
 		dto.setTitle(doc.getTitle());
 		dto.setDescription(doc.getDescription());
 		dto.setUrl(baseURL + "/public/documents/" + doc.getId());
