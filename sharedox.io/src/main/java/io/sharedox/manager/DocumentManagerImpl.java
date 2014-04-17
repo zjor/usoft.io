@@ -6,6 +6,7 @@ import me.zjor.auth.model.AuthUser;
 import me.zjor.manager.AbstractManager;
 
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +41,17 @@ public class DocumentManagerImpl extends AbstractManager implements DocumentMana
 		if (entity != null) {
 			jpa().remove(entity);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void increaseDownloads(String id) {
+		Document document = findById(id);
+		if (document != null) {
+			document.setModificationTime(new Date());
+			document.increaseDownloads();
+		}
+
 	}
 
 

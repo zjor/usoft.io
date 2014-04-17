@@ -211,6 +211,8 @@ public class SharedoxController {
 			} catch (IOException e) {
 				log.error("Unable to read file", e);
 				return Response.serverError().build();
+			} finally {
+				documentManager.increaseDownloads(documentId);
 			}
 		}
 	}

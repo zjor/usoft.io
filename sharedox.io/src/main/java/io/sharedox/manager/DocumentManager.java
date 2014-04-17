@@ -19,4 +19,6 @@ public interface DocumentManager {
 
 	void remove(String id);
 
+	void increaseDownloads(String id);
+
 }

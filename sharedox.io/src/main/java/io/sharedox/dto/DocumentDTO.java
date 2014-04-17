@@ -33,7 +33,7 @@ public class DocumentDTO implements Serializable {
 	private Date creationDate;
 
 	@SerializedName("downloads")
-	private int downloads;
+	private long downloads;
 
 	public static DocumentDTO fromModel(Document doc, String baseURL) {
 		DocumentDTO dto = new DocumentDTO();
@@ -42,7 +42,7 @@ public class DocumentDTO implements Serializable {
 		dto.setDescription(doc.getDescription());
 		dto.setUrl(baseURL + "/public/documents/" + doc.getId());
 		dto.setCreationDate(doc.getCreationTime());
-		dto.setDownloads(0);
+		dto.setDownloads(doc.getDownloads());
 		return dto;
 	}
 

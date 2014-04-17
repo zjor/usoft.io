@@ -44,6 +44,12 @@ public class Document {
 	@Column(name = "creation_time", nullable = false)
 	private Date creationTime;
 
+	@Column(name = "modification_time", nullable = false)
+	private Date modificationTime;
+
+	@Column(name = "downloads", nullable = false)
+	private long downloads;
+
 	public static Document create(EntityManager em, AuthUser user, String title, String description, String imageURL, String resourceLocation, String filename) {
 		Document doc = new Document();
 		doc.setUser(user);
@@ -52,9 +58,15 @@ public class Document {
 		doc.setImageURL(imageURL);
 		doc.setResourceLocation(resourceLocation);
 		doc.setFilename(filename);
-		doc.setCreationTime(new Date());
+		Date now = new Date();
+		doc.creationTime = now;
+		doc.modificationTime = now;
 		em.persist(doc);
 		return doc;
+	}
+
+	public void increaseDownloads() {
+		downloads++;
 	}
 
 }

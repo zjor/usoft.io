@@ -89,7 +89,8 @@
 		</div>
 		<div class="delete-button">Delete</div>
 	</div>
-	<div class="url"><a href="<@= url @>"><@= url @></a></div>
+	<div class="url"><a href="<@= url @>">Download</a></div>
+	<div class="fb-share-button" data-href="<@= url @>" data-type="button"></div>
 	<div class="clearfix">
 		<div class="left"><@= creation_date @></div>
 		<div class="right">Downloads: <@= downloads @></div>
