@@ -15,9 +15,15 @@
 		<httpclient.version>4.3</httpclient.version>
 		<slf4j.version>1.7.5</slf4j.version>
 		<lombok.version>0.12.0</lombok.version>
+		<mongodriver.version>2.11.3</mongodriver.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongodriver.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>

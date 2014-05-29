@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -29,13 +30,14 @@ public class HttpPing implements Runnable {
 		HttpGet request = new HttpGet(url);
 		try {
 			HttpResponse response = httpClient.execute(request);
+			EntityUtils.consume(response.getEntity());
 			if (response.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
 				log.warn("{} -> {}", url, response.getStatusLine());
 			} else {
 				log.info("{} -> OK", url);
 			}
 		} catch (IOException e) {
-			log.error("Failed to request URL: {}", url);
+			log.error("Failed to request URL: {}", url, e);
 		}
 	}
 }
