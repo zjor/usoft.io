@@ -1,4 +1,4 @@
-package io.usoft.properties;
+package io.usoft.properties.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
