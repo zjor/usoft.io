@@ -1,6 +1,8 @@
 package io.usoft.snippets;
 
 import com.google.inject.Inject;
+import com.google.inject.Key;
+import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
@@ -25,6 +27,11 @@ public class AppGuiceModule extends ServletModule {
 	protected void configureServlets() {
 
 		bind(Endpoint.class)
+				.in(Singleton.class);
+
+		bind(String.class)
+				.annotatedWith(Names.named("sessionId"))
+				.toProvider(SessionIdProvider.class)
 				.in(ServletScopes.REQUEST);
 
 		bind(String.class)
@@ -35,17 +42,34 @@ public class AppGuiceModule extends ServletModule {
 		bindInterceptor(
 				Matchers.any(),
 				Matchers.annotatedWith(Log.class),
-				new LoggingInterceptor());
+				new LoggingInterceptor(getProvider(Key.get(String.class, Names.named("sessionId")))));
 
 		filter("/*").through(GuiceContainer.class);
+	}
+
+	protected static class SessionIdProvider implements Provider<String> {
+
+		@Inject
+		private HttpServletRequest request;
+
+		@Override
+		public String get() {
+			return request.getSession().getId();
+		}
 	}
 
 	@Slf4j
 	protected static class LoggingInterceptor implements MethodInterceptor {
 
+		private Provider<String> sessionId;
+
+		public LoggingInterceptor(Provider<String> sessionId) {
+			this.sessionId = sessionId;
+		}
+
 		@Override
 		public Object invoke(MethodInvocation invocation) throws Throwable {
-			MDC.clear();
+			MDC.put("sessionId", sessionId.get());
 
 			String methodName = invocation.getMethod().getName();
 			log.info("{}: => {}", methodName, Arrays.toString(invocation.getArguments()));
