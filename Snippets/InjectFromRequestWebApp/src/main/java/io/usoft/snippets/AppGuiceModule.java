@@ -16,6 +16,8 @@ import org.slf4j.MDC;
 import javax.inject.Provider;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: Sergey Royz
@@ -44,7 +46,9 @@ public class AppGuiceModule extends ServletModule {
 				Matchers.annotatedWith(Log.class),
 				new LoggingInterceptor(getProvider(Key.get(String.class, Names.named("sessionId")))));
 
-		filter("/*").through(GuiceContainer.class);
+		Map<String, String> parameters = new HashMap();
+		parameters.put("javax.ws.rs.Application", "io.usoft.snippets.SnippetsApplication");
+		filter("/*").through(GuiceContainer.class, parameters);
 	}
 
 	protected static class SessionIdProvider implements Provider<String> {
@@ -83,9 +87,10 @@ public class AppGuiceModule extends ServletModule {
 
 		/**
 		 * By default, there are several elements available to be injected, each of which is bound in RequestScope:
-		 * 	HttpServletRequest / ServletRequest
-		 * 	HttpServletResponse / ServletResponse
-		 * 	@RequestParameters Map<String, String[]>
+		 * HttpServletRequest / ServletRequest
+		 * HttpServletResponse / ServletResponse
+		 *
+		 * @RequestParameters Map<String, String[]>
 		 */
 		@Inject
 		private HttpServletRequest request;
