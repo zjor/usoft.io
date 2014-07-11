@@ -1,4 +1,6 @@
-package io.usoft.snippets;
+package io.usoft.snippets.service;
+
+import io.usoft.snippets.exceptions.MyException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,6 +19,10 @@ public interface MyService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	Response sum(@QueryParam("a") int a, @QueryParam("b") int b);
+
+	@GET
+	@Path("/error")
+	void causeException() throws MyException;
 
 
 }

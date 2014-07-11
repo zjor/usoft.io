@@ -1,4 +1,4 @@
-package io.usoft.snippets;
+package io.usoft.snippets.guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

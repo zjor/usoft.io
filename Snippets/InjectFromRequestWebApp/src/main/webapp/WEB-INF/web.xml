@@ -7,16 +7,6 @@
 	<display-name>InjectFromRequestWebApp</display-name>
 
 	<filter>
-		<filter-name>TeeFilter</filter-name>
-		<filter-class>ch.qos.logback.access.servlet.TeeFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>TeeFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter>
 		<filter-name>GuiceFilter</filter-name>
 		<filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
 	</filter>
@@ -27,7 +17,7 @@
 	</filter-mapping>
 
 	<listener>
-		<listener-class>io.usoft.snippets.AppGuiceServletContextListener</listener-class>
+		<listener-class>io.usoft.snippets.guice.AppGuiceServletContextListener</listener-class>
 	</listener>
 
 </web-app>

@@ -1,5 +1,8 @@
 package io.usoft.snippets;
 
+import io.usoft.snippets.jersey.ext.MyExceptionMapper;
+import io.usoft.snippets.jersey.ext.XmlBodyWriter;
+
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +17,7 @@ public class SnippetsApplication extends Application {
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>> classes = new HashSet<Class<?>>();
 		classes.add(XmlBodyWriter.class);
+		classes.add(MyExceptionMapper.class);
 		return classes;
 	}
 }

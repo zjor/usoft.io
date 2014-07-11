@@ -1,4 +1,4 @@
-package io.usoft.snippets;
+package io.usoft.snippets.jersey.ext;
 
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;

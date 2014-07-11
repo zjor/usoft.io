@@ -1,4 +1,4 @@
-package io.usoft.snippets;
+package io.usoft.snippets.guice;
 
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -8,6 +8,10 @@ import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import com.google.inject.servlet.ServletScopes;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import io.usoft.snippets.Endpoint;
+import io.usoft.snippets.Log;
+import io.usoft.snippets.service.MyService;
+import io.usoft.snippets.service.MyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
