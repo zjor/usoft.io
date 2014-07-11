@@ -31,6 +31,8 @@ public class AppGuiceModule extends ServletModule {
 		bind(Endpoint.class)
 				.in(Singleton.class);
 
+		bind(MyService.class).to(MyServiceImpl.class).in(Singleton.class);
+
 		bind(String.class)
 				.annotatedWith(Names.named("sessionId"))
 				.toProvider(SessionIdProvider.class)
@@ -45,6 +47,12 @@ public class AppGuiceModule extends ServletModule {
 				Matchers.any(),
 				Matchers.annotatedWith(Log.class),
 				new LoggingInterceptor(getProvider(Key.get(String.class, Names.named("sessionId")))));
+
+		bindInterceptor(
+				Matchers.annotatedWith(Log.class),
+				Matchers.any(),
+				new LoggingInterceptor(getProvider(Key.get(String.class, Names.named("sessionId")))));
+
 
 		Map<String, String> parameters = new HashMap();
 		parameters.put("javax.ws.rs.Application", "io.usoft.snippets.SnippetsApplication");
